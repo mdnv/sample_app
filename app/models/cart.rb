@@ -5,7 +5,6 @@ class Cart < ApplicationRecord
   # has_and_belongs_to_many :variants
   # has_many :products, :through => :cart_items
 
-
   def add_product(product_params)
 
     current_item = cart_items.find_by(variant_id: product_params[:product][:variant_id])
@@ -20,6 +19,18 @@ class Cart < ApplicationRecord
     end
 
     new_item
+  end
+
+  def cart(product, variant, quantity)
+
+    if current_item = cart_items.find_by(variant: variant)
+      product_params[:action] == 'edit' ?
+      current_item.quantity = product_params[:product][:quantity].to_i :
+      current_item.quantity += product_params[:product][:quantity].to_i
+      current_item.save
+    else
+      cart_items.create(product: product,variant: variant, cart: self, quantity: quantity)
+    end
   end
 
   def total_item
