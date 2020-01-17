@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrdersController < ApplicationController
   def index
     @orders = Order.all
@@ -15,24 +17,19 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
   end
 
-  def checkout1
-  end
+  def checkout1; end
 
-  def checkout2
-  end
+  def checkout2; end
 
-  def checkout3
-  end
+  def checkout3; end
 
   def checkout4
     @order = Order.new
   end
 
-  def checkout5
-  end
+  def checkout5; end
 
-  def addresses
-  end
+  def addresses; end
 
   def create
     # Generate order_items for a subset of vatiants (products) in current_cart (current_order).
@@ -40,10 +37,10 @@ class OrdersController < ApplicationController
     unless current_cart.list.blank? || current_user.blank?
       order = current_user.orders.create
 
-      current_cart.list.each { |cart_item|
+      current_cart.list.each do |cart_item|
         order.order_items.create!(quantity: cart_item.quantity,
-                                  order_id: order.id,product_id: cart_item.product_id ,variant_id: cart_item.variant_id)
-      }
+                                  order_id: order.id, product_id: cart_item.product_id, variant_id: cart_item.variant_id)
+      end
 
       if order.save
         redirect_to checkout5_path
@@ -60,7 +57,6 @@ class OrdersController < ApplicationController
     #   format.js
     # end
 
-
     # def cart(product, variant, quantity, action)
     #   if current_item = cart_items.find_by(variant: variant)
     #     current_item.quantity ||= 1
@@ -70,8 +66,6 @@ class OrdersController < ApplicationController
     #     cart_items.create(product: product,variant: variant, cart: self, quantity: quantity)
     #   end
     # end
-
-
 
     # @order = Order.new(order_params)
 
@@ -100,12 +94,15 @@ class OrdersController < ApplicationController
   end
 
   private
+
   def order_params
     params.require(:order).permit(:user_id, :address, :phone, :method, :status, :details)
   end
+
   def cart_params
     params.require(:cart).permit(:quantity, :cart_id, :product_id, :product_id, :variant_id)
   end
+
   def filtering_params(params)
     params.slice(:status, :location, :starts_with)
   end

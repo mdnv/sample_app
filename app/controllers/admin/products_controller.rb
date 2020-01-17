@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class Admin::ProductsController < ApplicationController
-  layout "admin"
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  layout 'admin'
+  before_action :set_product, only: %i[show edit update destroy]
 
   # GET /products
   # GET /products.json
@@ -10,8 +12,7 @@ class Admin::ProductsController < ApplicationController
 
   # GET /products/1
   # GET /products/1.json
-  def show
-  end
+  def show; end
 
   # GET /products/new
   def new
@@ -19,8 +20,7 @@ class Admin::ProductsController < ApplicationController
   end
 
   # GET /products/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /products
   # POST /products.json
@@ -63,13 +63,14 @@ class Admin::ProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_product
-      @product = Product.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def product_params
-      params.require(:product).permit(:name, :jan_code, :gender, :franchise, :producttype, :brand, :category, :sport, variants_attributes: [:id, :price, :originalprice, :sku, :stock, :color, :avatar, :hover, :_destroy, images: []])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_product
+    @product = Product.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def product_params
+    params.require(:product).permit(:name, :jan_code, :gender, :franchise, :producttype, :brand, :category, :sport, variants_attributes: [:id, :price, :originalprice, :sku, :stock, :color, :avatar, :hover, :_destroy, images: []])
+  end
 end

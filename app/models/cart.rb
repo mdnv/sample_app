@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Cart < ApplicationRecord
   belongs_to :user, optional: true
   has_many :cart_items, dependent: :destroy
@@ -8,7 +10,7 @@ class Cart < ApplicationRecord
       action == 'edit' ? current_item.quantity = quantity.to_i : current_item.quantity += quantity.to_i
       current_item.save
     else
-      cart_items.create(product: product,variant: variant, cart: self, quantity: quantity)
+      cart_items.create(product: product, variant: variant, cart: self, quantity: quantity)
     end
   end
 
@@ -18,7 +20,7 @@ class Cart < ApplicationRecord
 
   def total_item
     total_item = 0
-    self.cart_items.each do |cart_item|
+    cart_items.each do |cart_item|
       total_item += cart_item.quantity.to_i
     end
     total_item
@@ -33,6 +35,6 @@ class Cart < ApplicationRecord
   end
 
   def sale
-    self.total_value - self.total_originalvalue
+    total_value - total_originalvalue
   end
 end

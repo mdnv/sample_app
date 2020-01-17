@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateGuestCartItems < ActiveRecord::Migration[6.0]
   def change
     create_table :guest_cart_items do |t|

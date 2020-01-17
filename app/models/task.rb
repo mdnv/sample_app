@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Task < ActiveRecord::Base
   belongs_to :project
   has_one_attached :avatar

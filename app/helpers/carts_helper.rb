@@ -1,5 +1,6 @@
-module CartsHelper
+# frozen_string_literal: true
 
+module CartsHelper
   def log_in_guest_cart(guest_cart)
     session[:guest_cart_id] = guest_cart.id
   end
@@ -10,15 +11,13 @@ module CartsHelper
   end
 
   def current_cart
-
     if (guest_cart_id = session[:guest_cart_id])
       if (user_id = session[:user_id])
         # 1
         current_user.cart.present? ? cart = current_user.cart : cart = Cart.create(user_id: user_id)
         guest_cart = GuestCart.find_by(id: guest_cart_id)
         unless guest_cart.guest_cart_items.blank?
-          guest_cart.guest_cart_items.each {
-            |guest_cart_item|
+          guest_cart.guest_cart_items.each do |guest_cart_item|
             current_item = cart.cart_items.find_by(variant_id: guest_cart_item.variant_id)
             if current_item
               current_item.quantity += guest_cart_item.quantity.to_i
@@ -29,7 +28,7 @@ module CartsHelper
                               quantity: guest_cart_item.quantity,
                               variant_id: guest_cart_item.variant_id)
             end
-          }
+          end
         end
         log_out_guest_cart
         guest_cart.destroy
@@ -57,7 +56,6 @@ module CartsHelper
       end
     end
   end
-
 end
 
 def log_out_guest_cart
@@ -70,5 +68,3 @@ def log_out_cart
   session.delete(:cart_id)
   @cart = nil
 end
-
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Order < ApplicationRecord
   belongs_to :user
   has_many :order_items, dependent: :destroy
@@ -13,7 +15,7 @@ class Order < ApplicationRecord
 
   def total_item
     total_item = 0
-    self.order_items.each do |order_item|
+    order_items.each do |order_item|
       total_item += order_item.quantity.to_i
     end
     total_item
@@ -28,6 +30,6 @@ class Order < ApplicationRecord
   end
 
   def sale
-    self.total_value - self.total_originalvalue
+    total_value - total_originalvalue
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WishController < ApplicationController
   def index
     @wish_items = current_wish.list.order(:id).page(params[:page]).per(10)
