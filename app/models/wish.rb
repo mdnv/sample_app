@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Wish < ApplicationRecord
   belongs_to :user, optional: true
   has_many :wish_items, dependent: :destroy
@@ -8,7 +10,7 @@ class Wish < ApplicationRecord
 
   # Wishes a product.
   def wish(product, variant)
-    wish_items.create(product: product,variant: variant, wish: self)
+    wish_items.create(product: product, variant: variant, wish: self)
   end
 
   # Unwishes a product.
@@ -17,7 +19,7 @@ class Wish < ApplicationRecord
   end
 
   # Returns true if the current user is following the other user.
-  def wishing?(product, variant)
+  def wishing?(_product, variant)
     current_item = wish_items.find_by(variant: variant)
     wish_items.include?(current_item)
   end

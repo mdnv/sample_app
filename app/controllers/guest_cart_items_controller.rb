@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class GuestCartItemsController < ApplicationController
-  before_action :set_guest_cart_item, only:[:destroy, :update]
+  before_action :set_guest_cart_item, only: %i[destroy update]
 
   def create
     @product = Product.find(params[:product_id])
@@ -13,16 +15,28 @@ class GuestCartItemsController < ApplicationController
 
   def update
     if @guest_cart_item.quantity .between? 2, 14
-      @guest_cart_item.update_attribute(:quantity,@guest_cart_item.quantity+=1) if params[:inc] == "inc"
-      @guest_cart_item.update_attribute(:quantity,@guest_cart_item.quantity-=1) if params[:dec] == "dec"
+      if params[:inc] == 'inc'
+        @guest_cart_item.update_attribute(:quantity, @guest_cart_item.quantity += 1)
+      end
+      if params[:dec] == 'dec'
+        @guest_cart_item.update_attribute(:quantity, @guest_cart_item.quantity -= 1)
+      end
     end
     if @guest_cart_item.quantity == 15
-      @guest_cart_item.update_attribute(:quantity,@guest_cart_item.quantity) if params[:inc] == "inc"
-      @guest_cart_item.update_attribute(:quantity,@guest_cart_item.quantity-=1) if params[:dec] == "dec"
+      if params[:inc] == 'inc'
+        @guest_cart_item.update_attribute(:quantity, @guest_cart_item.quantity)
+      end
+      if params[:dec] == 'dec'
+        @guest_cart_item.update_attribute(:quantity, @guest_cart_item.quantity -= 1)
+      end
     end
     if @guest_cart_item.quantity == 1
-      @guest_cart_item.update_attribute(:quantity,@guest_cart_item.quantity+=1) if params[:inc] == "inc"
-      @guest_cart_item.update_attribute(:quantity,@guest_cart_item.quantity) if params[:dec] == "dec"
+      if params[:inc] == 'inc'
+        @guest_cart_item.update_attribute(:quantity, @guest_cart_item.quantity += 1)
+      end
+      if params[:dec] == 'dec'
+        @guest_cart_item.update_attribute(:quantity, @guest_cart_item.quantity)
+      end
     end
     respond_to do |format|
       format.html { redirect_to request.referrer }
@@ -36,7 +50,8 @@ class GuestCartItemsController < ApplicationController
   end
 
   private
-    def set_guest_cart_item
-      @guest_cart_item = GuestCartItem.find(params[:id])
-    end
+
+  def set_guest_cart_item
+    @guest_cart_item = GuestCartItem.find(params[:id])
+  end
 end

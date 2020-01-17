@@ -1,5 +1,6 @@
-module WishesHelper
+# frozen_string_literal: true
 
+module WishesHelper
   def log_in_guest_wish(guest_wish)
     session[:guest_wish_id] = guest_wish.id
   end
@@ -10,20 +11,20 @@ module WishesHelper
   end
 
   def current_wish
-
     if (guest_wish_id = session[:guest_wish_id])
       if (user_id = session[:user_id])
         # 1
         current_user.wish.present? ? wish = current_user.wish : wish = Wish.create(user_id: user_id)
         guest_wish = GuestWish.find_by(id: guest_wish_id)
         unless guest_wish.guest_wish_items.blank?
-          guest_wish.guest_wish_items.each {
-            |guest_wish_item|
+          guest_wish.guest_wish_items.each do |guest_wish_item|
             current_item = wish.wish_items.find_by(variant_id: guest_wish_item.variant_id)
+            next if current_item
+
             WishItem.create(wish_id: wish.id,
                             product_id: guest_wish_item.product_id,
-                            variant_id: guest_wish_item.variant_id) unless current_item
-          }
+                            variant_id: guest_wish_item.variant_id)
+          end
         end
         log_out_guest_wish
         guest_wish.destroy
@@ -51,7 +52,6 @@ module WishesHelper
       end
     end
   end
-
 end
 
 def log_out_guest_wish

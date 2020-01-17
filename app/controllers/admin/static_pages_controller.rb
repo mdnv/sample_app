@@ -1,6 +1,7 @@
-class Admin::StaticPagesController < ApplicationController
-  layout "admin"
+# frozen_string_literal: true
 
-  def home
-  end
+class Admin::StaticPagesController < ApplicationController
+  layout 'admin'
+
+  def home; end
 end

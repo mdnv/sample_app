@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GuestCart < ApplicationRecord
   has_many :guest_cart_items, dependent: :destroy
 
@@ -7,7 +9,7 @@ class GuestCart < ApplicationRecord
       action == 'edit' ? current_item.quantity = quantity.to_i : current_item.quantity += quantity.to_i
       current_item.save
     else
-      guest_cart_items.create(product: product,variant: variant, guest_cart: self, quantity: quantity)
+      guest_cart_items.create(product: product, variant: variant, guest_cart: self, quantity: quantity)
     end
   end
 
@@ -17,7 +19,7 @@ class GuestCart < ApplicationRecord
 
   def total_item
     total_item = 0
-    self.guest_cart_items.each do |guest_cart_item|
+    guest_cart_items.each do |guest_cart_item|
       total_item += guest_cart_item.quantity.to_i
     end
     total_item
@@ -32,6 +34,6 @@ class GuestCart < ApplicationRecord
   end
 
   def sale
-    self.total_value - self.total_originalvalue
+    total_value - total_originalvalue
   end
 end

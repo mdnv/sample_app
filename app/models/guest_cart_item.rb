@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GuestCartItem < ApplicationRecord
   belongs_to :product
   belongs_to :variant

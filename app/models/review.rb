@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Review < ApplicationRecord
   validates :reviewer, presence: true,
-  length: { minimum: 1 }
+                       length: { minimum: 1 }
   validates :content, presence: true,
-  length: { minimum: 3 }
+                      length: { minimum: 3 }
   belongs_to :product
 end
